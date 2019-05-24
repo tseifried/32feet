@@ -265,7 +265,14 @@ namespace InTheHand.Net.Bluetooth
             SendOrPostCallback cb = delegate(object args) {
                 OnDiscoveryProgress((DiscoverDevicesEventArgs)args);
             };
-            asyncOp.Post(cb, e);
+            try
+            {
+                asyncOp.Post(cb, e);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Trace.WriteLine(DateTime.UtcNow.TimeOfDay.ToString() + ": HandleDiscoNewDevice exception: " + ex);
+            }
         }
 
     }
